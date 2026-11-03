@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sandswept")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37ef850f06a47bba818a98f5832e24461e6e5f56")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bde9104c67309776b298e149947661551db36ea7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sandswept")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sandswept")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
