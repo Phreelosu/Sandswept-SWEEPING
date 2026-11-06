@@ -53,6 +53,8 @@ namespace Sandswept.Enemies.BrassBell.States {
                 AkSoundEngine.PostEvent(Events.Play_bellBody_attackShoot, base.gameObject);
             }
 
+            PlayAnimation("Body", "Ring");
+
             if (base.isAuthority && naturalExit) {
                 Vector3 point = base.GetAimRay().GetPoint(50f);
 

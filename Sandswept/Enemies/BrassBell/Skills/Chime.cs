@@ -14,43 +14,50 @@ namespace Sandswept.Enemies.BrassBell.States {
         {
             base.OnEnter();
 
-            if (!base.characterBody.master.GetComponent<BaseAI>() || !base.characterBody.master.GetComponent<BaseAI>().currentEnemy.mainHurtBox) {
+            if (base.isAuthority && (!base.characterBody.master.GetComponent<BaseAI>() || !base.characterBody.master.GetComponent<BaseAI>().currentEnemy.mainHurtBox)) {
                 outer.SetNextStateToMain();
                 return;
             }
 
-            if (base.isAuthority) {
-                SphereSearch search = new();
-                search.radius = searchRadius;
-                search.origin = base.transform.position;
-                search.mask = LayerIndex.entityPrecise.mask;
-                search.RefreshCandidates();
-                search.FilterCandidatesByDistinctHurtBoxEntities();
-                HurtBox[] boxes = search.GetHurtBoxes();
+            SphereSearch search = new();
+            search.radius = searchRadius;
+            search.origin = base.transform.position;
+            search.mask = LayerIndex.entityPrecise.mask;
+            search.RefreshCandidates();
+            search.FilterCandidatesByDistinctHurtBoxEntities();
+            HurtBox[] boxes = search.GetHurtBoxes();
 
-                HurtBox target = base.characterBody.master.GetComponent<BaseAI>().currentEnemy.mainHurtBox;
+            HurtBox target = base.characterBody.master.GetComponent<BaseAI>().currentEnemy.mainHurtBox;
 
-                boxes = boxes.Where(x => x.teamIndex == GetTeam() && MatchesFilter(x.healthComponent.body.bodyIndex)).ToArray();
+            boxes = boxes.Where(x => x.teamIndex == GetTeam() && MatchesFilter(x.healthComponent.body.bodyIndex)).ToArray();
 
-                if (boxes.Length <= 1) {
-                    outer.SetNextStateToMain();
-                    return;
-                }
-                
-                foreach (HurtBox box in boxes) {
-                    if (box.healthComponent) {
-                        EntityStateMachine weapon = EntityStateMachine.FindByCustomName(box.healthComponent.gameObject, "Weapon");
+            if (boxes.Length <= 1)
+            {
+                outer.SetNextStateToMain();
+                return;
+            }
 
-                        if (weapon != null) {
-                            weapon.SetState(new ChimeAttack(target));
-                        }
+            foreach (HurtBox box in boxes)
+            {
+                if (base.isAuthority && box.healthComponent)
+                {
+                    EntityStateMachine weapon = EntityStateMachine.FindByCustomName(box.healthComponent.gameObject, "Weapon");
 
-                        if (box.healthComponent.body.bodyIndex == BellIndex) {
-                            box.healthComponent.body.skillLocator.secondary.temporaryCooldownPenalty = 8f;
-                        }
+                    if (weapon != null)
+                    {
+                        weapon.SetState(new ChimeAttack(target));
+                    }
+
+                    if (box.healthComponent.body.bodyIndex == BellIndex)
+                    {
+                        box.healthComponent.body.skillLocator.secondary.temporaryCooldownPenalty = 8f;
                     }
                 }
             }
+
+            AkSoundEngine.PostEvent(Events.Play_PrayerBeads_LevelUp, base.gameObject);
+            AkSoundEngine.PostEvent(Events.Play_bellBody_spawn, base.gameObject);
+            
         }
 
         public bool MatchesFilter(BodyIndex index) {
@@ -82,6 +89,8 @@ namespace Sandswept.Enemies.BrassBell.States {
             chime.transform.localScale = Vector3.one * base.characterBody.bestFitRadius;
             prepBall = GameObject.Instantiate(GetPrepBall(), GetMuzzle());
             AkSoundEngine.PostEvent(Events.Play_bellBody_attackCreate, base.gameObject);
+
+            PlayAnimation("Body", "Chime");
         }
         public override void FixedUpdate()
         {

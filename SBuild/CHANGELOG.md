@@ -11,6 +11,11 @@
 - Enemies
   - Added Ardent Wisp
   - Added Brass Bell
+  - Added Stone Fragment
+  - Generally fixed enemy lasers being choppy
+  - Generally fixed enemy lasers having weird hitboxes
+  - Fixed Delta Construct creating fire trails where the laser dissipates in the air
+  - Fixed Gamma Construct creating rock particles where the laser dissipates in the air
 - Items/Equipment
   - Crown's Diamond reworked. New effect is: Entering combat grants temporary barrier for 30% maximum health. While you have an active barrier, project a ward that grants allies +25% damage and +25% attack speed.
   - Universal VIP Pass reworked. New effect is: The first chest you open each stage has a 50% discount and offers a choice between two items

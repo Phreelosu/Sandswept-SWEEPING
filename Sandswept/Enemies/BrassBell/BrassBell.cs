@@ -54,7 +54,13 @@ namespace Sandswept.Enemies.BrassBell
             holder.MonsterCategorySelectionWeight = 1;
 
             DirectorAPI.Helpers.AddNewMonsterToStagesWhere(holder, true, (x) => {
-                if (x.CustomStageName == "itobservatory_wormsworms") {
+                string[] modded = new string[] {
+                    "foggyswampdownpour",
+                    "broadcastperch_wormsworms", "itbroadcastperch_wormsworms",
+                    "coast_wormsworms", "itcoast_wormsworms"
+                };
+
+                if (modded.Contains(x.CustomStageName)) {
                     return true;
                 }
 
@@ -90,12 +96,23 @@ namespace Sandswept.Enemies.BrassBell
             ReplaceSkill(locator.primary, BarrageSkill.instance);
             ReplaceSkill(locator.secondary, ChimeSkill.instance);
 
-            // body.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(ArdentWispDeath));
+            body.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(DeathState));
             // body.GetComponent<CharacterDeathBehavior>().deathStateMachine.initialStateType = new(typeof(ArdentWispSpawn));
 
             LanguageAPI.Add(body.baseNameToken.Replace("_NAME", "_LORE"),
             """
-            
+            Incident Report: 720AYT-701 "Grand Symphony"
+
+            [6th of November, 2057 at 10:45pm] The UES Shimmer Mark sends out a daily survey report, noting an unknown vessel. Witnesses described the object to be 'around the fifth of the size of the nearest moon"
+            [6th of November, 2057 at 10:47pm] The UES Manifest Destiny is alerted of the UES Shimmer Mark's anomaly mentioned in their survey report, the Manifest Destiny near immediately re-routed to the object's predicted location.
+            [10th of November, 2057 at 4:22am] The UES Manifest Destiny arrives at the anomalous object in the Versanto System
+            [10th of November, 2057 at 4:40am] The Captain of the UES Manifest Destiny writes in his personal ship log that the ship started "Shaking violently upon getting close"
+            [10th of November, 2057 at 6:23am] Anomaly is deemed to be located within the upper atmosphere of Versanto II due to scout drones recording sound coming from the Anomaly planetside.
+            [10th of November, 2057 at 7:44am] Anomaly is seen releasing a stream of sub-anomalies from a port on its bottom.
+            [10th of November, 2057 at 10:25am] Scout drones go dark after recording two and a half hours of footage. Reported sub-anomalies were recorded to be instruments. Various percussive and string instruments were spotted, however there were no brass, woodwind, or piano instruments.
+            [10th of November, 2057 at 11:41am] Crewmates aboard the UES Manifest Destiny report seeing sub-anomalies drifting towards the vessel, the captain dismisses these claims.
+            [10th of November, 2057 at 12:00am] Automatic trash disposal activates, allowing in one sub-anomaly, dubbed a 'Brass Bell'
+            [10th of November, 2057 at 3:53am] Crewmate spots and destroys the Brass Bell. The captain quickly calls for pilots to retreat from Versanto II
             """);
         }
 
